@@ -1,0 +1,30 @@
+{
+    "mode": "queue",
+    "replay": "",
+    "isRealTimeMode": false,
+    "outputOverlayFiles": true,
+    "queue": [
+        {
+            "path": "C:\\Users\\jguzman2\\OneDrive - Infor\\Desktop\\eowscript\\io\\input\\samples2\\test.slp",
+            "startFrame": 423,
+            "endFrame": 1168,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 42.23999786376953,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\jguzman2\\OneDrive - Infor\\Desktop\\eowscript\\io\\input\\samples2\\test.slp",
+            "startFrame": 4405,
+            "endFrame": 5248,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 73.73999786376953,
+                "didKill": false
+            }
+        }
+    ]
+}

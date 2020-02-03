@@ -1,0 +1,81 @@
+SlippiGame {
+  readPosition: 1632336,
+  actionsComputer: ActionsComputer {
+    playerPermutations: [ [Object], [Object] ],
+    state: Map { [Object] => [Object], [Object] => [Object] }
+  },
+  conversionComputer: ConversionComputer {
+    playerPermutations: [ [Object], [Object] ],
+    conversions: [
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object]
+    ],
+    state: Map { [Object] => [Object], [Object] => [Object] },
+    metadata: { lastEndFrameByOppIdx: [Object] }
+  },
+  comboComputer: ComboComputer {
+    playerPermutations: [ [Object], [Object] ],
+    state: Map { [Object] => [Object], [Object] => [Object] },
+    combos: [
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object]
+    ]
+  },
+  stockComputer: StockComputer {
+    state: Map { [Object] => [Object], [Object] => [Object] },
+    playerPermutations: [ [Object], [Object] ],
+    stocks: [ [Object], [Object], [Object], [Object], [Object], [Object] ]
+  },
+  inputComputer: InputComputer {
+    playerPermutations: [ [Object], [Object] ],
+    state: Map { [Object] => [Object], [Object] => [Object] }
+  },
+  statsComputer: Stats {
+    lastProcessedFrame: 6910,
+    frames: {
+    },
+    playerPermutations: [ [Object], [Object] ],
+    allComputers: [
+      [ActionsComputer],
+      [ComboComputer],
+      [ConversionComputer],
+      [InputComputer],
+      [StockComputer]
+    ],
+    options: { processOnTheFly: false }
+  },
+  input: { source: 'file', filePath: 'test.slp' },
+  parser: SlpParser {
+    frames: {
+    },
+    settings: {
+      slpVersion: '2.0.1',
+      isTeams: false,
+      isPAL: false,
+      stageId: 28,
+      players: [Array]
+    },
+    gameEnd: null,
+    latestFrameIndex: 6910,
+    playerPermutations: [ [Object], [Object] ],
+    settingsComplete: true,
+    statsComputer: Stats {
+      lastProcessedFrame: 6910,
+      frames: [Object],
+      playerPermutations: [Array],
+      allComputers: [Array],
+      options: [Object]
+    }
+  }
+}
