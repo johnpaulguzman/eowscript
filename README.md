@@ -2,7 +2,7 @@
 
 ## Install dependencies (version 1: the scrub way)
 - Install node + npm: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
-    - Open Command Prompt and run: npm install -g npm slp-parser-js
+    - Open Command Prompt and run: `npm install -g slp-parser-js`
 - Install python: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 	- Check the `Add Python to environment variables` option during installation
 - Install ffmpeg: [https://ffmpeg.zeranoe.com/builds/](https://ffmpeg.zeranoe.com/builds/)
@@ -33,6 +33,7 @@
 - Open Command Prompt and run: `node eowfinder.js`
 - If it ran successfully, it should output the output JSON path
 - Play and record the replays in Dolphin by running: `Dolphin.exe -i <output JSON path>`
+    - Use the Slippi Desktop App's Dolphin (e.g., `"C:\Users\guzman\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzman\Repositories\eowscript\io\output\combos.json"`) ???
 
 ## Usage (Black Frame Trimmer)
 - Modify the variables in `eowtrimmer.py` and make sure that the video path is matches `input_path`
@@ -42,4 +43,4 @@
 ### ** Tips **
 - A convenient way to open command prompt in a specific directory is to:
     - Open the directory in Windows Explorer
-    - In the address bar (C:\\...) erase the contents, then type `cmd` and enter.
+    - In the address bar (C:\\...) erase the contents, then type `cmd` and hit enter.

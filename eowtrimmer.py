@@ -1,5 +1,5 @@
 ############ VARIABLES ############
-input_path = "C:\\Users\\jguzman2\\OneDrive - Infor\\Desktop\\ohe\\out.mkv"
+input_path = "C:\\Users\\guzma\\AppData\\Roaming\\Slippi Desktop App\\dolphin\\User\\Dump\\dump.avi"
 ###################################
 
 import subprocess as sp
@@ -32,8 +32,10 @@ black_detect_result = parse_bytes(run_command(black_detect_cmd)['stdout'])
 ordered_remove_duplicates = lambda l: list(dict.fromkeys(l))
 get_black_detect_time = lambda s: s[s.index('=') + 1: ]
 zip_list_pairs = lambda l: zip(l[::2], l[1::2])
-def format_segments(black_detect_result):
-    data = black_detect_result.split()[1: ]
+def format_segments(black_detect_result):  # TODO USE: https://markheath.net/post/cut-and-concatenate-with-ffmpeg TO PRESERVE -c copy \
+    data = black_detect_result.split()
+    data = ordered_remove_duplicates(data)
+    data = data[1: ]  # remove the first start detection
     data = list(map(get_black_detect_time, data))
     data_pairs = zip_list_pairs(data)
     segments = "+".join([f"between(t,{dp[0]},{dp[1]})" for dp in data_pairs])

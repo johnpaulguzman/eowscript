@@ -3,7 +3,7 @@ replayPath = "io/input/";
 outputPath = "io/output/combos.json"
 characterNames = ["Falco"];
 characterColors = ["Red"];
-percentThreshold = 40
+percentThreshold = 50
 ignoreNonKill = false;
 allowDoubles = false;
 outputJsonIndentation = 4;
@@ -11,7 +11,7 @@ outputJsonIndentation = 4;
 HUMAN_PLAYER_TYPE = 0
 REPLAY_FILE_EXTENSION = ".slp"
 STARTING_TIME_PAD = 4
-ENDING_TIME_PAD = 3
+ENDING_TIME_PAD = 3.5
 FPS = 60
 ///////////////////////////////////
 STARTING_FRAMES_BUFFER = FPS * STARTING_TIME_PAD
@@ -63,9 +63,13 @@ function filterCombos(combos, playerIndexes, percentThreshold, ignoreNonKill) {
 }
 
 function formDoplhinQueueElements(game, combos) {
+    settings = game.getSettings();
+    metadata = game.getMetadata();
+    if (settings === null || metadata === null) {
+        console.log(">> File with corrupt metadata ignored!");
+        return [];
+    }
     return combos.map(combo => {
-        settings = game.getSettings();
-        metadata = game.getMetadata();
         return {
             path: game.input.filePath,
             startFrame: combo.startFrame - STARTING_FRAMES_BUFFER > -123 ? combo.startFrame - STARTING_FRAMES_BUFFER : -123,
@@ -82,19 +86,27 @@ function formDoplhinQueueElements(game, combos) {
 
 absoluteReplayPath = path.resolve(replayPath)
 replayPaths = traverseReplayPath(absoluteReplayPath);
-dolphinQueue = replayPaths
-    .map(path => new SlippiGame(path))
-    .filter(game => allowDoubles || !(game.getSettings().isTeams))
-    .filter(game => game.getSettings().players.every(player => player.type === HUMAN_PLAYER_TYPE))   
-    .map(game => {
-        combos = game.getStats().combos;
-        players = game.getSettings().players;
-        characterDetails = findCharacterDetails(characterNames, characterColors)
-        playerIndexes = findPlayerIndexes(players, characterDetails.characterIds, characterDetails.characterColorIds);
-        filteredCombos = filterCombos(combos, playerIndexes, percentThreshold, ignoreNonKill);
-        dolphinQueueElements = formDoplhinQueueElements(game, filteredCombos)
-        return dolphinQueueElements;
-    }).flatMap(_ => _);
+
+dolphinQueue = []
+for (i = 0; i < replayPaths.length; i ++) {
+    console.log(`Progress: ${i + 1}/${replayPaths.length}\tCombos found: ${dolphinQueue.length}\tCurrent file: ${replayPaths[i]}`)
+    game = new SlippiGame(replayPaths[i])
+    if (!(allowDoubles || !(game.getSettings().isTeams))) {
+        console.log(">> File with doubles ignored!");
+        continue;
+    }
+    if (!(game.getSettings().players.every(player => player.type === HUMAN_PLAYER_TYPE))) {
+        console.log(">> File with CPU ignored!");
+        continue;
+    }
+    combos = game.getStats().combos;
+    players = game.getSettings().players;
+    characterDetails = findCharacterDetails(characterNames, characterColors)
+    playerIndexes = findPlayerIndexes(players, characterDetails.characterIds, characterDetails.characterColorIds);
+    filteredCombos = filterCombos(combos, playerIndexes, percentThreshold, ignoreNonKill);
+    dolphinQueueElements = formDoplhinQueueElements(game, filteredCombos)
+    dolphinQueue = dolphinQueue.concat(dolphinQueueElements);
+}
 
 dolphinJSON = {
   "mode": "queue",
@@ -116,7 +128,8 @@ console.log(`Output file successfully written to: ${absoluteOutputPath}`);
     https://gist.github.com/NikhilNarayana/d45e328e9ea47127634f2faf575e8dcf
     https://video.stackexchange.com/questions/16564/how-to-trim-out-black-frames-with-ffmpeg-on-windows
 Dump:
-const repl = require("repl"); var r = repl.start("node> ");
+    const repl = require("repl"); var r = repl.start("node> ");
+
     function filterGames(games, allowDoubles) {
         return games
             .filter(game => allowDoubles || !(game.getSettings().isTeams))
@@ -126,4 +139,21 @@ const repl = require("repl"); var r = repl.start("node> ");
     // games = replayPaths.map(path => new SlippiGame(path))
     // filteredGames = filterGames(games, allowDoubles)
     // dolphinQueue = filteredGames.map(game => {
+
+    dolphinQueue = replayPaths
+        .map(path => new SlippiGame(path))
+        .filter(game => allowDoubles || !(game.getSettings().isTeams))
+        .filter(game => game.getSettings().players.every(player => player.type === HUMAN_PLAYER_TYPE))   
+        .map(game => {
+            console.log(`Searching in file: ${game.input.filePath}`)
+            combos = game.getStats().combos;
+            players = game.getSettings().players;
+            characterDetails = findCharacterDetails(characterNames, characterColors)
+            playerIndexes = findPlayerIndexes(players, characterDetails.characterIds, characterDetails.characterColorIds);
+            filteredCombos = filterCombos(combos, playerIndexes, percentThreshold, ignoreNonKill);
+            dolphinQueueElements = formDoplhinQueueElements(game, filteredCombos)
+            return dolphinQueueElements;
+        }).flatMap(_ => _);
+
+"C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json"
 */
