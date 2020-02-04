@@ -10,7 +10,12 @@ outputJsonIndentation = 4;
 //////////// CONSTANTS ////////////
 HUMAN_PLAYER_TYPE = 0
 REPLAY_FILE_EXTENSION = ".slp"
+STARTING_TIME_PAD = 4
+ENDING_TIME_PAD = 3
+FPS = 60
 ///////////////////////////////////
+STARTING_FRAMES_BUFFER = FPS * STARTING_TIME_PAD
+ENDING_FRAMES_BUFFER = FPS * ENDING_TIME_PAD
 
 const { SlippiGame, characters } = require('slp-parser-js');  // npm install slp-parser-js
 const fs = require("fs");
@@ -21,19 +26,12 @@ function traverseReplayPath(replayPath) {
     fs.readdirSync(replayPath).forEach(file => {
         let fullPath = path.join(replayPath, file);
         if (fs.lstatSync(fullPath).isDirectory()) {
-            paths = [...paths, ...traverseReplayPath(fullPath)];
+            paths = paths.concat(traverseReplayPath(fullPath));
         } else {
-            paths = [...paths, fullPath]
+            paths.push(fullPath)
         }
     });
     return paths.filter(path => path.endsWith(REPLAY_FILE_EXTENSION));
-}
-
-function filterGames(games, allowDoubles) {
-    return games
-        .filter(game => allowDoubles || !(game.getSettings().isTeams))
-        .filter(game => game.getSettings().players
-            .every(player => player.type === HUMAN_PLAYER_TYPE))
 }
 
 function findCharacterDetails(characterNames, characterColors) {
@@ -70,11 +68,11 @@ function formDoplhinQueueElements(game, combos) {
         metadata = game.getMetadata();
         return {
             path: game.input.filePath,
-            startFrame: combo.startFrame - 240 > -123 ? combo.startFrame - 240 : -123,
-            endFrame: combo.endFrame + 180 < metadata.lastFrame ? combo.endFrame + 180 : metadata.lastFrame,
+            startFrame: combo.startFrame - STARTING_FRAMES_BUFFER > -123 ? combo.startFrame - STARTING_FRAMES_BUFFER : -123,
+            endFrame: combo.endFrame + ENDING_FRAMES_BUFFER < metadata.lastFrame ? combo.endFrame + ENDING_FRAMES_BUFFER : metadata.lastFrame,
             additional: {
-                playerCharacterName: characters.getCharacterInfo(game.getSettings().players.find(player => player.playerIndex === combo.playerIndex).characterId).name,
-                opponentCharacterName: characters.getCharacterInfo(game.getSettings().players.find(player => player.playerIndex === combo.opponentIndex).characterId).name,
+                playerCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.playerIndex).characterId).name,
+                opponentCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.opponentIndex).characterId).name,
                 damageDealt: combo.endPercent - combo.startPercent,
                 didKill: combo.didKill
             }
@@ -84,18 +82,19 @@ function formDoplhinQueueElements(game, combos) {
 
 absoluteReplayPath = path.resolve(replayPath)
 replayPaths = traverseReplayPath(absoluteReplayPath);
-games = replayPaths.map(path => new SlippiGame(path))
-filteredGames = filterGames(games, allowDoubles)
-
-dolphinQueue = filteredGames.map(game => {
-    combos = game.getStats().combos;
-    players = game.getSettings().players;
-    characterDetails = findCharacterDetails(characterNames, characterColors)
-    playerIndexes = findPlayerIndexes(players, characterDetails.characterIds, characterDetails.characterColorIds);
-    filteredCombos = filterCombos(combos, playerIndexes, percentThreshold, ignoreNonKill);
-    dolphinQueueElements = formDoplhinQueueElements(game, filteredCombos)
-    return dolphinQueueElements;
-}).flatMap(_ => _);
+dolphinQueue = replayPaths
+    .map(path => new SlippiGame(path))
+    .filter(game => allowDoubles || !(game.getSettings().isTeams))
+    .filter(game => game.getSettings().players.every(player => player.type === HUMAN_PLAYER_TYPE))   
+    .map(game => {
+        combos = game.getStats().combos;
+        players = game.getSettings().players;
+        characterDetails = findCharacterDetails(characterNames, characterColors)
+        playerIndexes = findPlayerIndexes(players, characterDetails.characterIds, characterDetails.characterColorIds);
+        filteredCombos = filterCombos(combos, playerIndexes, percentThreshold, ignoreNonKill);
+        dolphinQueueElements = formDoplhinQueueElements(game, filteredCombos)
+        return dolphinQueueElements;
+    }).flatMap(_ => _);
 
 dolphinJSON = {
   "mode": "queue",
@@ -105,17 +104,26 @@ dolphinJSON = {
   "queue": dolphinQueue
 };
 
-absoluteReplayPath = path.resolve(outputPath)
-fs.writeFileSync(absoluteReplayPath, JSON.stringify(dolphinJSON, null, outputJsonIndentation));
+absoluteOutputPath = path.resolve(outputPath)
+fs.writeFileSync(absoluteOutputPath, JSON.stringify(dolphinJSON, null, outputJsonIndentation));
 
 console.log(`Replay files found: ${replayPaths.length}`);
 console.log(`Filtered combos found: ${dolphinQueue.length}`);
-console.log(`Output file successfully written to: ${absoluteReplayPath}`);
+console.log(`Output file successfully written to: ${absoluteOutputPath}`);
 
 /* References:
     https://github.com/project-slippi/slp-parser-js/blob/master/src/melee/characters.ts
     https://gist.github.com/NikhilNarayana/d45e328e9ea47127634f2faf575e8dcf
     https://video.stackexchange.com/questions/16564/how-to-trim-out-black-frames-with-ffmpeg-on-windows
+Dump:
 const repl = require("repl"); var r = repl.start("node> ");
-TODO: figure out ffmpeg
+    function filterGames(games, allowDoubles) {
+        return games
+            .filter(game => allowDoubles || !(game.getSettings().isTeams))
+                .filter(game => game.getSettings().players
+                    .every(player => player.type === HUMAN_PLAYER_TYPE))
+    }
+    // games = replayPaths.map(path => new SlippiGame(path))
+    // filteredGames = filterGames(games, allowDoubles)
+    // dolphinQueue = filteredGames.map(game => {
 */
