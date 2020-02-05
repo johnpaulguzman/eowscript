@@ -2,7 +2,7 @@
 replayPath = "io/input/";
 outputPath = "io/output/combos.json"
 characterNames = ["Falco"];
-characterColors = [];
+characterColors = ["Red"];
 percentThreshold = 50
 ignoreNonKill = false;
 allowDoubles = false;
