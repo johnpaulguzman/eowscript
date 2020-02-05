@@ -2,7 +2,7 @@
 replayPath = "io/input/";
 outputPath = "io/output/combos.json"
 characterNames = ["Falco"];
-characterColors = ["Red"];
+characterColors = [];
 percentThreshold = 50
 ignoreNonKill = false;
 allowDoubles = false;
@@ -50,8 +50,8 @@ function findCharacterDetails(characterNames, characterColors) {
 
 function findPlayerIndexes(players, characterIds, characterColorIds) {
     return players
-        .filter(player => characterIds === [] || characterIds.includes(player.characterId))
-        .filter(player => characterColorIds === [] || characterColorIds.includes(player.characterColor))
+        .filter(player => characterIds.length === 0 || characterIds.includes(player.characterId))
+        .filter(player => characterColorIds.length === 0 || characterColorIds.includes(player.characterColor))
         .map(player => player.playerIndex);
 }
 
@@ -122,6 +122,8 @@ fs.writeFileSync(absoluteOutputPath, JSON.stringify(dolphinJSON, null, outputJso
 console.log(`Replay files found: ${replayPaths.length}`);
 console.log(`Filtered combos found: ${dolphinQueue.length}`);
 console.log(`Output file successfully written to: ${absoluteOutputPath}`);
+
+
 
 /* References:
     https://github.com/project-slippi/slp-parser-js/blob/master/src/melee/characters.ts
