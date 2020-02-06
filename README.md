@@ -44,3 +44,4 @@
 - A convenient way to open command prompt in a specific directory is to:
     - Open the directory in Windows Explorer
     - In the address bar (C:\\...) erase the contents, then type `cmd` and hit enter.
+- Character input options: (https://github.com/project-slippi/slp-parser-js/blob/master/src/melee/characters.ts)[https://github.com/project-slippi/slp-parser-js/blob/master/src/melee/characters.ts]

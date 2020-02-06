@@ -7,6 +7,7 @@ percentThreshold = 50
 ignoreNonKill = false;
 allowDoubles = false;
 outputJsonIndentation = 4;
+maxClipsPerJson = 25
 //////////// CONSTANTS ////////////
 HUMAN_PLAYER_TYPE = 0
 REPLAY_FILE_EXTENSION = ".slp"
@@ -108,22 +109,25 @@ for (i = 0; i < replayPaths.length; i ++) {
     dolphinQueue = dolphinQueue.concat(dolphinQueueElements);
 }
 
-dolphinJSON = {
-  "mode": "queue",
-  "replay": "",
-  "isRealTimeMode": false,
-  "outputOverlayFiles": true,
-  "queue": dolphinQueue
-};
-
-absoluteOutputPath = path.resolve(outputPath)
-fs.writeFileSync(absoluteOutputPath, JSON.stringify(dolphinJSON, null, outputJsonIndentation));
-
 console.log(`Replay files found: ${replayPaths.length}`);
 console.log(`Filtered combos found: ${dolphinQueue.length}`);
-console.log(`Output file successfully written to: ${absoluteOutputPath}`);
 
-
+chunkSplit = (stream, size) => stream.reduce((chunks, item, idx, arr) => (idx % size == 0) ? [...chunks, arr.slice(idx, idx + size)] : chunks, []);
+dolphinQueueChunks = chunkSplit(dolphinQueue, maxClipsPerJson);
+for (i = 0; i < dolphinQueueChunks.length; i++) {
+    chunk = dolphinQueueChunks[i];
+    chunkOutputPath = outputPath + "_" + i;
+    dolphinJSON = {
+        "mode": "queue",
+        "replay": "",
+        "isRealTimeMode": false,
+        "outputOverlayFiles": true,
+        "queue": chunk
+    };
+    absoluteChunkOutputPath = path.resolve(chunkOutputPath);
+    fs.writeFileSync(absoluteChunkOutputPath, JSON.stringify(dolphinJSON, null, outputJsonIndentation));
+    console.log(`Output file successfully written to: ${absoluteChunkOutputPath}`);
+}
 
 /* References:
     https://github.com/project-slippi/slp-parser-js/blob/master/src/melee/characters.ts
