@@ -23,6 +23,17 @@ def run_command(command):
     print(f">> Output:\n{parse_bytes(out)}\n<< End of output <<")
     return result
 
+generate_input_cmd_tmpl = """ ffmpeg 
+        -i "{}/Frames/framedump0.avi" 
+        -i "{}/Audio/dspdump.wav" 
+        -c copy 
+        "{}" """
+if not os.path.exists(input_path):
+    print("Creating input file: {}".format(input_path))
+    input_dir = os.path.dirname(input_path)
+    generate_input_cmd = generate_input_cmd_tmpl.format(input_dir, input_dir, input_path)
+    run_command(generate_input_cmd)
+
 format_movie_path = lambda s: s.replace("\\", "/").replace(":", "\\\\:")
 black_detect_cmd_tmpl = """ ffprobe 
     -f lavfi 
@@ -44,7 +55,7 @@ data_pairs = list(zip_list_pairs(data))
 
 extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} -c copy "{}" """
 sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=s)).replace(":", ";")
-format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("final" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
+format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
 
 sec = 0
 if os.path.exists(concat_list):

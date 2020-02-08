@@ -7,7 +7,7 @@ percentThreshold = 50
 ignoreNonKill = false;
 allowDoubles = false;
 outputJsonIndentation = 4;
-maxClipsPerJson = 25
+maxClipsPerJson = 50;
 //////////// CONSTANTS ////////////
 HUMAN_PLAYER_TYPE = 0
 REPLAY_FILE_EXTENSION = ".slp"
@@ -85,6 +85,21 @@ function formDoplhinQueueElements(game, combos) {
     });
 }
 
+function swapConsecutivePathsInPlace(l) {
+    didSwap = false;
+    for (i = 0; i < l.length - 1; i++) {
+        if (l[i].path === l[i + 1].path) {
+            didSwap = true;
+            a = i + 1;
+            b = (a + 1) % l.length;
+            [ l[a], l[b] ] = [ l[b], l[a] ];
+        }
+    }
+    if (didSwap) {
+        swapConsecutivePathsInPlace(l);
+    }
+}
+
 absoluteReplayPath = path.resolve(replayPath)
 replayPaths = traverseReplayPath(absoluteReplayPath);
 
@@ -109,6 +124,7 @@ for (i = 0; i < replayPaths.length; i ++) {
     dolphinQueue = dolphinQueue.concat(dolphinQueueElements);
 }
 
+swapConsecutivePathsInPlace(dolphinQueue);
 console.log(`Replay files found: ${replayPaths.length}`);
 console.log(`Filtered combos found: ${dolphinQueue.length}`);
 

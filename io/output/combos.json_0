@@ -1,0 +1,558 @@
+{
+    "mode": "queue",
+    "replay": "",
+    "isRealTimeMode": false,
+    "outputOverlayFiles": true,
+    "queue": [
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T204407.slp",
+            "startFrame": 273,
+            "endFrame": 1151,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 60.009997844696045,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T213136.slp",
+            "startFrame": 4216,
+            "endFrame": 5041,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 71.1300048828125,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T204407.slp",
+            "startFrame": 2321,
+            "endFrame": 3120,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 50.63999557495117,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T213633.slp",
+            "startFrame": 1918,
+            "endFrame": 2737,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 58.1199951171875,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T213834.slp",
+            "startFrame": -123,
+            "endFrame": 705,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 69.47999572753906,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T214119.slp",
+            "startFrame": 4107,
+            "endFrame": 5127,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 65.989990234375,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T215301.slp",
+            "startFrame": 102,
+            "endFrame": 879,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Sheik",
+                "damageDealt": 60.28000259399414,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T215621.slp",
+            "startFrame": 2048,
+            "endFrame": 2878,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Sheik",
+                "damageDealt": 50.12000274658203,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T215301.slp",
+            "startFrame": 3969,
+            "endFrame": 4781,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Sheik",
+                "damageDealt": 56.82999610900879,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190808T221608.slp",
+            "startFrame": 60,
+            "endFrame": 850,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Marth",
+                "damageDealt": 60.68000030517578,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190810T232410.slp",
+            "startFrame": 188,
+            "endFrame": 1086,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 72.40999603271484,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T152240.slp",
+            "startFrame": 260,
+            "endFrame": 1125,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Captain Falcon",
+                "damageDealt": 67.60999631881714,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T153118.slp",
+            "startFrame": 1706,
+            "endFrame": 2573,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 51.68000030517578,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T152240.slp",
+            "startFrame": 3353,
+            "endFrame": 4206,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Captain Falcon",
+                "damageDealt": 55.12000274658203,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T153505.slp",
+            "startFrame": 643,
+            "endFrame": 1597,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 61.6300048828125,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T160728.slp",
+            "startFrame": -80,
+            "endFrame": 821,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 51,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T153505.slp",
+            "startFrame": 5240,
+            "endFrame": 6062,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 54.60999774932861,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T164054.slp",
+            "startFrame": 9214,
+            "endFrame": 10191,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 54.43000507354736,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T164816.slp",
+            "startFrame": 1272,
+            "endFrame": 2187,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 86.1300106048584,
+                "didKill": true
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T165259.slp",
+            "startFrame": 157,
+            "endFrame": 899,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 51.640002727508545,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T170318.slp",
+            "startFrame": 4681,
+            "endFrame": 5557,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 53.459999084472656,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T165259.slp",
+            "startFrame": 6731,
+            "endFrame": 7682,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 50.67262840270996,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T171057.slp",
+            "startFrame": 9250,
+            "endFrame": 10155,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 61.87000274658203,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T172801.slp",
+            "startFrame": 2022,
+            "endFrame": 2816,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 58.996971130371094,
+                "didKill": true
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T173321.slp",
+            "startFrame": 2305,
+            "endFrame": 3387,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 53.150001525878906,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T173530.slp",
+            "startFrame": 6220,
+            "endFrame": 7125,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 59.279991149902344,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T173856.slp",
+            "startFrame": 3281,
+            "endFrame": 4083,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 53.340001583099365,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T174132.slp",
+            "startFrame": 82,
+            "endFrame": 981,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 73.67000198364258,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T174438.slp",
+            "startFrame": 2457,
+            "endFrame": 3408,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 57.13999557495117,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T174132.slp",
+            "startFrame": 5416,
+            "endFrame": 6208,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 53.160003662109375,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T174640.slp",
+            "startFrame": 7239,
+            "endFrame": 8019,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 50.63999938964844,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T175026.slp",
+            "startFrame": 435,
+            "endFrame": 1271,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 61,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T175627.slp",
+            "startFrame": 2997,
+            "endFrame": 3777,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 52.2499942779541,
+                "didKill": true
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T175846.slp",
+            "startFrame": 604,
+            "endFrame": 1551,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 68.47999572753906,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T180144.slp",
+            "startFrame": -123,
+            "endFrame": 692,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 70.02000427246094,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T211602.slp",
+            "startFrame": 3466,
+            "endFrame": 4324,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 67.16000366210938,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T180144.slp",
+            "startFrame": 5441,
+            "endFrame": 6296,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 69.11000061035156,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T211602.slp",
+            "startFrame": 4870,
+            "endFrame": 5948,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 106.52999877929688,
+                "didKill": true
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T211916.slp",
+            "startFrame": 4539,
+            "endFrame": 5386,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 57.40000915527344,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T211602.slp",
+            "startFrame": 6065,
+            "endFrame": 6870,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 62.70999813079834,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T212423.slp",
+            "startFrame": 118,
+            "endFrame": 945,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 60.13999938964844,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T213018.slp",
+            "startFrame": 5974,
+            "endFrame": 6746,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 51.42000198364258,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T215338.slp",
+            "startFrame": 927,
+            "endFrame": 1751,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Captain Falcon",
+                "damageDealt": 51.94000244140625,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190813T214302.slp",
+            "startFrame": 4572,
+            "endFrame": 5340,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Captain Falcon",
+                "damageDealt": 53.44000244140625,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190811T215338.slp",
+            "startFrame": 2783,
+            "endFrame": 3593,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Captain Falcon",
+                "damageDealt": 51.669997692108154,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190813T214954.slp",
+            "startFrame": 6609,
+            "endFrame": 7455,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Falco",
+                "damageDealt": 56.48999881744385,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190813T215840.slp",
+            "startFrame": 6288,
+            "endFrame": 7578,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 119.40999460220337,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190813T220724.slp",
+            "startFrame": -123,
+            "endFrame": 610,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 54.189998626708984,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190813T215840.slp",
+            "startFrame": 8618,
+            "endFrame": 9507,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 51.99999237060547,
+                "didKill": false
+            }
+        },
+        {
+            "path": "C:\\Users\\guzma\\Repositories\\eowscript\\io\\input\\ignoreme\\Game_20190813T221813.slp",
+            "startFrame": 11127,
+            "endFrame": 11871,
+            "additional": {
+                "playerCharacterName": "Falco",
+                "opponentCharacterName": "Fox",
+                "damageDealt": 50.97999572753906,
+                "didKill": false
+            }
+        }
+    ]
+}
