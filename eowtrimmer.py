@@ -1,6 +1,5 @@
 ############ VARIABLES ############
 input_path = "C:\\Users\\guzma\\AppData\\Roaming\\Slippi Desktop App\\dolphin\\User\\Dump\\dump.avi"
-concat_list = "C:\\Users\\guzma\\AppData\\Roaming\\Slippi Desktop App\\dolphin\\User\\Dump\\concat.txt"
 ###################################
 
 import datetime
@@ -56,8 +55,10 @@ data_pairs = list(zip_list_pairs(data))
 extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} -c copy "{}" """
 sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=s)).replace(":", ";")
 format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
+format_concat_path = lambda p: os.path.join(os.path.dirname(p), "concat.txt")
 
 sec = 0
+concat_list = format_concat_path(input_path)
 if os.path.exists(concat_list):
     os.remove(concat_list)
 
