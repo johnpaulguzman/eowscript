@@ -53,22 +53,20 @@ data = list(map(get_black_detect_time, data))
 data_pairs = list(zip_list_pairs(data))
 
 extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} -c copy "{}" """
-sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=s)).replace(":", ";")
+sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=float(s))).replace(":", ";")
 format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
 format_concat_path = lambda p: os.path.join(os.path.dirname(p), "concat.txt")
 
-sec = 0
 concat_list = format_concat_path(input_path)
 if os.path.exists(concat_list):
     os.remove(concat_list)
 
 for data_pair in data_pairs:
-    output_path = format_output_path(input_path, sec)
+    output_path = format_output_path(input_path, data_pair[0])
     extract_clip_cmd = extract_clip_cmd_tmpl.format(input_path, data_pair[0], data_pair[1], output_path)
     run_command(extract_clip_cmd)
     with open(concat_list, 'a') as f:
         f.write("file '{}'\n".format(output_path))
-    sec += float(data_pairs[0][1]) - float(data_pairs[0][0])
 
 merge_output_path = format_output_path(input_path, None)
 merge_clips_cmd_tmp = """ ffmpeg -y -f concat -safe 0 -i "{}" -c copy "{}" """
