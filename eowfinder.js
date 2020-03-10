@@ -3,6 +3,7 @@ replayPath = "io/input/";
 outputPath = "io/output/combos.json"
 characterNames = ["Falco"];
 characterColors = ["Red"];
+characterNamesIgnored = ["Fox"];
 percentThreshold = 50
 ignoreNonKill = false;
 allowDoubles = false;
@@ -37,7 +38,8 @@ function traverseReplayPath(replayPath) {
 
 function findCharacterDetails(characterNames, characterColors) {
     filteredCharacters = characters.getAllCharacters()
-        .filter(char => characterNames.includes(char.name) || characterNames.includes(char.shortName));
+        .filter(char => characterNames.includes(char.name) || characterNames.includes(char.shortName))
+        .filter(char => !(characterNamesIgnored.includes(char.name) || characterNamesIgnored.includes(char.shortName)));
     characterIds = filteredCharacters
         .map(char => char.id);
     characterColorIds = filteredCharacters
