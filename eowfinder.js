@@ -1,18 +1,18 @@
 //////////// VARIABLES ////////////
-replayPath = "io/input/";
+replayPath = "io/input/Slippi/";
 outputPath = "io/output/combos.json"
 characterNames = ["Falco"];
 characterColors = ["Red"];
-percentThreshold = 50
+percentThreshold = 40
 ignoreNonKill = false;
 allowDoubles = false;
 outputJsonIndentation = 4;
-maxClipsPerJson = 50;
+maxClipsPerJson = 1000;
 //////////// CONSTANTS ////////////
 HUMAN_PLAYER_TYPE = 0
 REPLAY_FILE_EXTENSION = ".slp"
 STARTING_TIME_PAD = 4
-ENDING_TIME_PAD = 3.5
+ENDING_TIME_PAD = 4
 FPS = 60
 ///////////////////////////////////
 STARTING_FRAMES_BUFFER = FPS * STARTING_TIME_PAD
@@ -177,5 +177,5 @@ Dump:
             return dolphinQueueElements;
         }).flatMap(_ => _);
 
-"C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json"
+"C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json_0"
 */
