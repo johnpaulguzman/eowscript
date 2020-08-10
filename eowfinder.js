@@ -1,3 +1,6 @@
+// To record run with a json output:
+// $ "C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json_0"
+
 //////////// VARIABLES ////////////
 replayPath = "io/input/Slippi/";
 outputPath = "io/output/combos.json"
@@ -7,7 +10,7 @@ percentThreshold = 40
 ignoreNonKill = false;
 allowDoubles = false;
 outputJsonIndentation = 4;
-maxClipsPerJson = 1000;
+maxClipsPerJson = 500;
 //////////// CONSTANTS ////////////
 HUMAN_PLAYER_TYPE = 0
 REPLAY_FILE_EXTENSION = ".slp"
@@ -177,5 +180,4 @@ Dump:
             return dolphinQueueElements;
         }).flatMap(_ => _);
 
-"C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json_0"
 */
