@@ -1,38 +1,38 @@
-// To record run with a json output:
-// $ "C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json_0"
-
-//////////// VARIABLES ////////////
-replayPath = "io/input/Slippi/";
-outputPath = "io/output/combos.json"
-characterNames = ["Falco"];
-characterColors = ["Red"];
-percentThreshold = 40
-ignoreNonKill = false;
-allowDoubles = false;
-outputJsonIndentation = 4;
-maxClipsPerJson = 500;
-//////////// CONSTANTS ////////////
-HUMAN_PLAYER_TYPE = 0
-REPLAY_FILE_EXTENSION = ".slp"
-STARTING_TIME_PAD = 4
-ENDING_TIME_PAD = 4
-FPS = 60
-///////////////////////////////////
-STARTING_FRAMES_BUFFER = FPS * STARTING_TIME_PAD
-ENDING_FRAMES_BUFFER = FPS * ENDING_TIME_PAD
-
 const { SlippiGame, characters } = require('slp-parser-js');  // npm install slp-parser-js
 const fs = require("fs");
 const path = require("path");
 
+config_path = "config.json";
+var config = JSON.parse(fs.readFileSync(config_path, 'utf8'));
+
+//////////// VARIABLES ////////////
+replayPath = config.replayPath;
+outputPath = config.outputPath;
+characterNames = config.characterNames;
+characterColors = config.characterColors;
+percentThreshold = config.percentThreshold;
+ignoreNonKill = config.ignoreNonKill;
+allowDoubles = config.allowDoubles;
+outputJsonIndentation = config.outputJsonIndentation;
+maxClipsPerJson = config.maxClipsPerJson;
+starting_time_pad = config.starting_time_pad;
+ending_time_pad = config.ending_time_pad;
+//////////// CONSTANTS ////////////
+HUMAN_PLAYER_TYPE = 0;
+REPLAY_FILE_EXTENSION = ".slp";
+FPS = 60;
+///////////////////////////////////
+STARTING_FRAMES_BUFFER = FPS * starting_time_pad;
+ENDING_FRAMES_BUFFER = FPS * ending_time_pad;
+
 function traverseReplayPath(replayPath) {
-    paths = []
+    paths = [];
     fs.readdirSync(replayPath).forEach(file => {
         let fullPath = path.join(replayPath, file);
         if (fs.lstatSync(fullPath).isDirectory()) {
             paths = paths.concat(traverseReplayPath(fullPath));
         } else {
-            paths.push(fullPath)
+            paths.push(fullPath);
         }
     });
     return paths.filter(path => path.endsWith(REPLAY_FILE_EXTENSION));
@@ -103,7 +103,7 @@ function swapConsecutivePathsInPlace(l) {
     }
 }
 
-absoluteReplayPath = path.resolve(replayPath)
+absoluteReplayPath = path.resolve(replayPath);
 replayPaths = traverseReplayPath(absoluteReplayPath);
 
 dolphinQueue = []

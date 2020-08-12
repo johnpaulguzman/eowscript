@@ -35,6 +35,10 @@
 - Play and record the replays in Dolphin by running: `Dolphin.exe -i <output JSON path>`
     - Use the Slippi Desktop App's Dolphin (e.g., `"C:\Users\guzman\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzman\Repositories\eowscript\io\output\combos.json"`) ???
 
+## Usage (Slippi Playback)
+- Format: `"<SLIPPI_PLAYBACK_DOLPHIN_PATH>" -i "<COMBO_FINDER_JSON_PATH>"`
+- Sample: `"C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json_0"`
+
 ## Usage (Black Frame Trimmer)
 - Modify the variables in `eowtrimmer.py` and make sure that the video path is matches `input_path`
 - Open Command Prompt and run: `python eowtrimmer.py`

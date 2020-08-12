@@ -1,12 +1,15 @@
-############ VARIABLES ############
-input_path = "C:\\Users\\guzma\\AppData\\Roaming\\Slippi Desktop App\\dolphin\\User\\Dump\\dump.avi"
-###################################
-
+import json
 import datetime
 import subprocess as sp
 import time
 import shlex
 import os
+
+config_path = "config.json"
+with open(config_path, 'rb') as f:
+    config = json.load(f)
+
+video_path = config['video_path']
 
 parse_bytes = lambda b: b.decode('utf-8', errors='ignore')
 remove_quotes = lambda s: s.replace('"', '')
@@ -27,10 +30,10 @@ generate_input_cmd_tmpl = """ ffmpeg
         -i "{}/Audio/dspdump.wav" 
         -c copy 
         "{}" """
-if not os.path.exists(input_path):
-    print("Creating input file: {}".format(input_path))
-    input_dir = os.path.dirname(input_path)
-    generate_input_cmd = generate_input_cmd_tmpl.format(input_dir, input_dir, input_path)
+if not os.path.exists(video_path):
+    print("Creating input file: {}".format(video_path))
+    input_dir = os.path.dirname(video_path)
+    generate_input_cmd = generate_input_cmd_tmpl.format(input_dir, input_dir, video_path)
     run_command(generate_input_cmd)
 
 format_movie_path = lambda s: s.replace("\\", "/").replace(":", "\\\\:")
@@ -39,7 +42,7 @@ black_detect_cmd_tmpl = """ ffprobe
     -i "movie={},blackdetect[out0]" 
     -show_entries tags=lavfi.black_start,lavfi.black_end 
     -of default=nw=1 """
-black_detect_cmd = black_detect_cmd_tmpl.format(format_movie_path(input_path))
+black_detect_cmd = black_detect_cmd_tmpl.format(format_movie_path(video_path))
 black_detect_result = parse_bytes(run_command(black_detect_cmd)['stdout'])
 
 ordered_remove_duplicates = lambda l: list(dict.fromkeys(l))
@@ -57,18 +60,18 @@ sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=float(s))).replace("
 format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
 format_concat_path = lambda p: os.path.join(os.path.dirname(p), "concat.txt")
 
-concat_list = format_concat_path(input_path)
+concat_list = format_concat_path(video_path)
 if os.path.exists(concat_list):
     os.remove(concat_list)
 
 for data_pair in data_pairs:
-    output_path = format_output_path(input_path, data_pair[0])
-    extract_clip_cmd = extract_clip_cmd_tmpl.format(input_path, data_pair[0], data_pair[1], output_path)
+    output_path = format_output_path(video_path, data_pair[0])
+    extract_clip_cmd = extract_clip_cmd_tmpl.format(video_path, data_pair[0], data_pair[1], output_path)
     run_command(extract_clip_cmd)
     with open(concat_list, 'a') as f:
         f.write("file '{}'\n".format(output_path))
 
-merge_output_path = format_output_path(input_path, None)
+merge_output_path = format_output_path(video_path, None)
 merge_clips_cmd_tmp = """ ffmpeg -y -f concat -safe 0 -i "{}" -c copy "{}" """
 merge_clips_cmd = merge_clips_cmd_tmp.format(concat_list, merge_output_path)
 run_command(merge_clips_cmd)
@@ -88,10 +91,10 @@ print(f"File written to: {merge_output_path}")
 #    return segments
 #
 #segments = format_segments(black_detect_result)
-#format_output_path = lambda s: os.path.join(os.path.dirname(input_path), "output_" + os.path.basename(input_path))
-#output_path = format_output_path(input_path)
+#format_output_path = lambda s: os.path.join(os.path.dirname(video_path), "output_" + os.path.basename(video_path))
+#output_path = format_output_path(video_path)
 #select_segments_cmd = f""" ffmpeg -y
-#    -i "{input_path}" 
+#    -i "{video_path}" 
 #    -vf "select='{segments}',setpts=N/FRAME_RATE/TB" 
 #    -af "aselect='{segments}',asetpts=N/SR/TB" 
 #    "{output_path}" """

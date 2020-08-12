@@ -1,0 +1,14 @@
+{
+	"replayPath": "io/input/Slippi/",
+	"outputPath": "io/output/combos.json",
+	"characterNames": ["Falco"],
+	"characterColors": ["Red"],
+	"percentThreshold": 40,
+	"ignoreNonKill": false,
+	"allowDoubles": false,
+	"outputJsonIndentation": 4,
+	"maxClipsPerJson": 5000,
+	"starting_time_pad": 4.5,
+	"ending_time_pad": 4.5,
+	"video_path": "C:\\Users\\guzma\\Videos\\obs\\2020-08-12 08-02-57.mp4"
+}
