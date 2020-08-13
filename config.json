@@ -10,5 +10,9 @@
 	"maxClipsPerJson": 5000,
 	"starting_time_pad": 4.5,
 	"ending_time_pad": 4.5,
-	"video_path": "C:\\Users\\guzma\\Videos\\obs\\2020-08-12 08-02-57.mp4"
+	"video_path": "C:\\Users\\guzma\\Videos\\obs\\cutme.mp4",
+	"video_codec": "libx265",
+	"audio_codec": "copy",
+	"additional_params": "",
+	"write_concat_video": false
 }

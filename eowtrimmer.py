@@ -10,6 +10,10 @@ with open(config_path, 'rb') as f:
     config = json.load(f)
 
 video_path = config['video_path']
+video_codec = config['video_codec']
+audio_codec = config['audio_codec']
+additional_params = config['additional_params']
+write_concat_video = config['write_concat_video']
 
 parse_bytes = lambda b: b.decode('utf-8', errors='ignore')
 remove_quotes = lambda s: s.replace('"', '')
@@ -55,7 +59,7 @@ data = data[1: ]  # remove the first start detection
 data = list(map(get_black_detect_time, data))
 data_pairs = list(zip_list_pairs(data))
 
-extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} -c copy "{}" """
+extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} -vcodec {} -acodec {} {} "{}" """  # https://superuser.com/questions/377343/cut-part-from-video-file-from-start-position-to-end-position-with-ffmpeg
 sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=float(s))).replace(":", ";")
 format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
 format_concat_path = lambda p: os.path.join(os.path.dirname(p), "concat.txt")
@@ -64,39 +68,19 @@ concat_list = format_concat_path(video_path)
 if os.path.exists(concat_list):
     os.remove(concat_list)
 
+output_paths = []
 for data_pair in data_pairs:
     output_path = format_output_path(video_path, data_pair[0])
-    extract_clip_cmd = extract_clip_cmd_tmpl.format(video_path, data_pair[0], data_pair[1], output_path)
+    extract_clip_cmd = extract_clip_cmd_tmpl.format(video_path, data_pair[0], data_pair[1], video_codec, audio_codec, additional_params, output_path)
     run_command(extract_clip_cmd)
-    with open(concat_list, 'a') as f:
-        f.write("file '{}'\n".format(output_path))
+    output_paths += [output_path]
 
-merge_output_path = format_output_path(video_path, None)
-merge_clips_cmd_tmp = """ ffmpeg -y -f concat -safe 0 -i "{}" -c copy "{}" """
-merge_clips_cmd = merge_clips_cmd_tmp.format(concat_list, merge_output_path)
-run_command(merge_clips_cmd)
-
-print(f"File written to: {merge_output_path}")
-
-
-
-#import code; code.interact(local={**locals(), **globals()})
-#def format_segments(black_detect_result):  # TODO USE: https://markheath.net/post/cut-and-concatenate-with-ffmpeg TO PRESERVE -c copy \
-#    data = black_detect_result.split()
-#    data = ordered_remove_duplicates(data)
-#    data = data[1: ]  # remove the first start detection
-#    data = list(map(get_black_detect_time, data))
-#    data_pairs = zip_list_pairs(data)
-#    segments = "+".join([f"between(t,{dp[0]},{dp[1]})" for dp in data_pairs])
-#    return segments
-#
-#segments = format_segments(black_detect_result)
-#format_output_path = lambda s: os.path.join(os.path.dirname(video_path), "output_" + os.path.basename(video_path))
-#output_path = format_output_path(video_path)
-#select_segments_cmd = f""" ffmpeg -y
-#    -i "{video_path}" 
-#    -vf "select='{segments}',setpts=N/FRAME_RATE/TB" 
-#    -af "aselect='{segments}',asetpts=N/SR/TB" 
-#    "{output_path}" """
-#
-#_ = run_command(select_segments_cmd)
+if write_concat_video:
+    with open(concat_list, 'w') as f:
+        for output_path in output_paths:
+            f.write("file '{}'\n".format(output_path))
+    merge_output_path = format_output_path(video_path, None)
+    merge_clips_cmd_tmp = """ ffmpeg -y -f concat -safe 0 -i "{}" -c copy "{}" """
+    merge_clips_cmd = merge_clips_cmd_tmp.format(concat_list, merge_output_path)
+    run_command(merge_clips_cmd)
+    print(f"File written to: {merge_output_path}")

@@ -29,7 +29,7 @@
     - `choco list --localonly` : Displays all packages handled by Chocolatey
 
 ## Usage (Combo Finder)
-- Modify the variables in `eowfinder.js` and make sure your slippi files are inside `replayPath`
+- Modify the variables in `config.json` and make sure your slippi files are inside `replayPath`
 - Open Command Prompt and run: `node eowfinder.js`
 - If it ran successfully, it should output the output JSON path
 - Play and record the replays in Dolphin by running: `Dolphin.exe -i <output JSON path>`
@@ -40,7 +40,7 @@
 - Sample: `"C:\Users\guzma\AppData\Roaming\Slippi Desktop App\dolphin\Dolphin.exe" -i "C:\Users\guzma\Repositories\eowscript\io\output\combos.json_0"`
 
 ## Usage (Black Frame Trimmer)
-- Modify the variables in `eowtrimmer.py` and make sure that the video path is matches `input_path`
+- Modify the variables in `config.json` and make sure that the video path is matches `video_path`
 - Open Command Prompt and run: `python eowtrimmer.py`
 - If it ran successfully, it should output the output video path
 
