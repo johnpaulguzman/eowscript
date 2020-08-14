@@ -10,10 +10,8 @@ with open(config_path, 'rb') as f:
     config = json.load(f)
 
 video_path = config['video_path']
-video_codec = config['video_codec']
-audio_codec = config['audio_codec']
-additional_params = config['additional_params']
 write_concat_video = config['write_concat_video']
+encoding_params = config['encoding_params']
 
 parse_bytes = lambda b: b.decode('utf-8', errors='ignore')
 remove_quotes = lambda s: s.replace('"', '')
@@ -59,7 +57,7 @@ data = data[1: ]  # remove the first start detection
 data = list(map(get_black_detect_time, data))
 data_pairs = list(zip_list_pairs(data))
 
-extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} -vcodec {} -acodec {} {} "{}" """  # https://superuser.com/questions/377343/cut-part-from-video-file-from-start-position-to-end-position-with-ffmpeg
+extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} {} "{}" """  # https://superuser.com/questions/377343/cut-part-from-video-file-from-start-position-to-end-position-with-ffmpeg
 sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=float(s))).replace(":", ";")
 format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
 format_concat_path = lambda p: os.path.join(os.path.dirname(p), "concat.txt")
@@ -71,7 +69,7 @@ if os.path.exists(concat_list):
 output_paths = []
 for data_pair in data_pairs:
     output_path = format_output_path(video_path, data_pair[0])
-    extract_clip_cmd = extract_clip_cmd_tmpl.format(video_path, data_pair[0], data_pair[1], video_codec, audio_codec, additional_params, output_path)
+    extract_clip_cmd = extract_clip_cmd_tmpl.format(video_path, data_pair[0], data_pair[1], encoding_params, output_path)
     run_command(extract_clip_cmd)
     output_paths += [output_path]
 
