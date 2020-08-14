@@ -38,14 +38,22 @@ if not os.path.exists(video_path):
     generate_input_cmd = generate_input_cmd_tmpl.format(input_dir, input_dir, video_path)
     run_command(generate_input_cmd)
 
-format_movie_path = lambda s: s.replace("\\", "/").replace(":", "\\\\:")
-black_detect_cmd_tmpl = """ ffprobe 
-    -f lavfi 
-    -i "movie={},blackdetect[out0]" 
-    -show_entries tags=lavfi.black_start,lavfi.black_end 
-    -of default=nw=1 """
-black_detect_cmd = black_detect_cmd_tmpl.format(format_movie_path(video_path))
-black_detect_result = parse_bytes(run_command(black_detect_cmd)['stdout'])
+movie_path = video_path.replace("\\", "/").replace(":", "\\\\:")
+black_detect_cache = f"{video_path}__black_detect_cache.txt"
+if os.path.exists(black_detect_cache):
+    print(f"Using cached blackdetect output: {black_detect_cache}")
+    with open(black_detect_cache, 'r') as file:
+        black_detect_result = file.read()
+else:
+    black_detect_cmd_tmpl = """ ffprobe 
+        -f lavfi 
+        -i "movie={},blackdetect[out0]" 
+        -show_entries tags=lavfi.black_start,lavfi.black_end 
+        -of default=nw=1 """
+    black_detect_cmd = black_detect_cmd_tmpl.format(movie_path)
+    black_detect_result = parse_bytes(run_command(black_detect_cmd)['stdout'])
+    with open(black_detect_cache, 'w', newline='') as file:
+        file.write(black_detect_result)
 
 ordered_remove_duplicates = lambda l: list(dict.fromkeys(l))
 get_black_detect_time = lambda s: s[s.index('=') + 1: ]
@@ -60,20 +68,19 @@ data_pairs = list(zip_list_pairs(data))
 extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} {} "{}" """  # https://superuser.com/questions/377343/cut-part-from-video-file-from-start-position-to-end-position-with-ffmpeg
 sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=float(s))).replace(":", ";")
 format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
-format_concat_path = lambda p: os.path.join(os.path.dirname(p), "concat.txt")
-
-concat_list = format_concat_path(video_path)
-if os.path.exists(concat_list):
-    os.remove(concat_list)
 
 output_paths = []
 for data_pair in data_pairs:
     output_path = format_output_path(video_path, data_pair[0])
+    if os.path.exists(output_path):
+        print(f"Skipping trimmed file: {output_path}")
+        continue
     extract_clip_cmd = extract_clip_cmd_tmpl.format(video_path, data_pair[0], data_pair[1], encoding_params, output_path)
     run_command(extract_clip_cmd)
     output_paths += [output_path]
 
 if write_concat_video:
+    concat_list = f"{video_path}__concat.txt"
     with open(concat_list, 'w') as f:
         for output_path in output_paths:
             f.write("file '{}'\n".format(output_path))
