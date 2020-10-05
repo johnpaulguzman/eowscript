@@ -1,5 +1,5 @@
 {
-	"replayPath": "io/input/Slippi/",
+	"replayPath": "C:\\Users\\guzma\\Slippi\\new",
 	"outputPath": "io/output/combos.json",
 	"characterNames": ["Falco"],
 	"characterColors": ["Red"],
@@ -7,12 +7,14 @@
 	"ignoreNonKill": false,
 	"allowDoubles": false,
 	"outputJsonIndentation": 4,
-	"maxClipsPerJson": 5000,
+	"maxClipsPerJson": 1000,
 	"starting_time_pad": 4.5,
 	"ending_time_pad": 4.5,
 	"video_path": "C:\\Users\\guzma\\Videos\\obs\\part1.mp4",
-	"write_concat_video": false,
 	"encoding_params": "-c:a copy -c:v hevc_nvenc -rc vbr_hq -cq 19 -b:v 10000k -maxrate:v 12500k",
-	"//sample_libx265_encoding_params": "-c:a copy -c:v libx265 -crf 18",
-	"//sample_hevc_nvenc_encoding_params": "-c:a copy -c:v hevc_nvenc -rc vbr_hq -cq 19 -b:v 10000k -maxrate:v 12500k"
+	"verbosity_params": "-hide_banner -loglevel warning",
+	"EXAMPLES": {
+		"encoding_params via libx265 (x265 (Software) encoder)": "-c:a copy -c:v libx265 -crf 18",
+		"encoding_params via hevc_nvenc (NVIDIA NVENC hevc (Hardware) encoder)": "-c:a copy -c:v hevc_nvenc -rc vbr_hq -cq 19 -b:v 10000k -maxrate:v 12500k"
+	}
 }

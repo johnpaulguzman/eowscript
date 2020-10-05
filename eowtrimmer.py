@@ -1,91 +1,93 @@
 import json
 import datetime
-import subprocess as sp
-import time
-import shlex
 import os
+import re
+import subprocess
+import time
 
 config_path = "config.json"
 with open(config_path, 'rb') as f:
     config = json.load(f)
 
 video_path = config['video_path']
-write_concat_video = config['write_concat_video']
 encoding_params = config['encoding_params']
+verbosity_params = config['verbosity_params']
+tmp_dir = os.path.join(os.path.dirname(video_path), os.path.basename(video_path) + "_tmp")
+output_dir = os.path.join(os.path.dirname(video_path), os.path.basename(video_path) + "_output")
+os.makedirs(tmp_dir, exist_ok=True)
+os.makedirs(output_dir, exist_ok=True)
 
-parse_bytes = lambda b: b.decode('utf-8', errors='ignore')
-remove_quotes = lambda s: s.replace('"', '')
-win_shlex_split = lambda c: map(remove_quotes, shlex.split(c, posix=False))
-def run_command(command):
-    print(f">> Running command:\n{command}\n<< End of command <<")
-    args = win_shlex_split(command)
-    process = sp.Popen(args, stdout=sp.PIPE, stderr=sp.PIPE, shell=True)
-    start_time = time.time()
-    (out, err, rc, duration) = (*process.communicate(), process.returncode, time.time() - start_time)
-    assert rc == 0, parse_bytes(err)
-    result = {'command': command, 'stdout': out, 'stderr': err, 'returncode': rc, 'duration': duration}
-    print(f">> Output:\n{parse_bytes(out)}\n<< End of output <<")
+
+def run_command(tmpl, *args):
+    command = tmpl.format(*args)
+    print(f">> Running command:\n{command}\n<< End of command <<\n\n")
+    process = subprocess.check_output(command, shell=True)
+    result = process.decode('utf-8', errors='ignore')
+    if result.strip():
+        print(f">> Output:\n{result}\n<< End of output <<\n\n")
     return result
 
-generate_input_cmd_tmpl = """ ffmpeg 
-        -i "{}/Frames/framedump0.avi" 
-        -i "{}/Audio/dspdump.wav" 
-        -c copy 
-        "{}" """
-if not os.path.exists(video_path):
-    print("Creating input file: {}".format(video_path))
-    input_dir = os.path.dirname(video_path)
-    generate_input_cmd = generate_input_cmd_tmpl.format(input_dir, input_dir, video_path)
-    run_command(generate_input_cmd)
 
-movie_path = video_path.replace("\\", "/").replace(":", "\\\\:")
-black_detect_cache = f"{video_path}__black_detect_cache.txt"
-if os.path.exists(black_detect_cache):
-    print(f"Using cached blackdetect output: {black_detect_cache}")
-    with open(black_detect_cache, 'r') as file:
-        black_detect_result = file.read()
-else:
-    black_detect_cmd_tmpl = """ ffprobe 
-        -f lavfi 
-        -i "movie={},blackdetect[out0]" 
-        -show_entries tags=lavfi.black_start,lavfi.black_end 
-        -of default=nw=1 """
-    black_detect_cmd = black_detect_cmd_tmpl.format(movie_path)
-    black_detect_result = parse_bytes(run_command(black_detect_cmd)['stdout'])
-    with open(black_detect_cache, 'w', newline='') as file:
-        file.write(black_detect_result)
+def load_black_detect():
+    black_detect_cache = os.path.join(tmp_dir, "black_detect_cache.txt")
+    if os.path.exists(black_detect_cache):
+        print(f"Using cached blackdetect output: {black_detect_cache}")
+        with open(black_detect_cache, 'r') as file:
+            black_detect_result = file.read()
+    else:
+        black_detect_cmd_tmpl = (
+            'ffprobe '
+            '-f lavfi '
+            '-i "movie={},blackdetect[out0]" '
+            '-show_entries tags=lavfi.black_start,lavfi.black_end '
+            '-of default=nw=1'
+        )
+        movie_path = video_path.replace("\\", "/").replace(":", "\\\\:")
+        black_detect_result = run_command(black_detect_cmd_tmpl, movie_path)
+        with open(black_detect_cache, 'w', newline='') as file:
+            file.write(black_detect_result)
+    return black_detect_result
 
-ordered_remove_duplicates = lambda l: list(dict.fromkeys(l))
-get_black_detect_time = lambda s: s[s.index('=') + 1: ]
-zip_list_pairs = lambda l: zip(l[::2], l[1::2])
 
-data = black_detect_result.split()
-data = ordered_remove_duplicates(data)
-data = data[1: ]  # remove the first start detection
-data = list(map(get_black_detect_time, data))
-data_pairs = list(zip_list_pairs(data))
+def parse_black_detect(black_detect_result):
+    get_black_detect_time = lambda s: s[s.index('=') + 1 :]
+    data = black_detect_result.split()
+    data = list(dict.fromkeys(data))  # remove duplicates
+    data = data[1:]  # remove the first start detection
+    data = list(map(get_black_detect_time, data))  # parse string blackdetect tags output
+    data_pairs = list(zip(data[::2], data[1::2]))  # form time range tuples
+    return data_pairs
 
-extract_clip_cmd_tmpl = """ ffmpeg -y -i "{}" -ss {} -to {} {} "{}" """  # https://superuser.com/questions/377343/cut-part-from-video-file-from-start-position-to-end-position-with-ffmpeg
-sec_to_timestamp = lambda s: str(datetime.timedelta(seconds=float(s))).replace(":", ";")
-format_output_path = lambda p, t: os.path.join(os.path.dirname(p), ("trimmed" if t is None else sec_to_timestamp(t)) + "_" + os.path.basename(p))
 
-output_paths = []
+black_detect_result = load_black_detect()
+data_pairs = parse_black_detect(black_detect_result)
+
+clip_cmd_tmpl = 'ffmpeg -y -ss {} -i "{}" -t {} -avoid_negative_ts 1 -c copy "{}" {}'
+probe_tmp_duration_cmd_tmpl = 'ffprobe -i {} -show_format {}'
+probe_duration_re = re.compile('duration=(\\d*\\.\\d*)')
+trim_cmd_tmpl = 'ffmpeg -y -i "{}" -ss {} -t {} {} "{}" {}'
+sec_to_timestamp = lambda sec: str(datetime.timedelta(seconds=float(sec))).replace(":", ";")
+str_minus = lambda t1, t2: str(float(t1) - float(t2))
+
 for data_pair in data_pairs:
-    output_path = format_output_path(video_path, data_pair[0])
+    duration = str_minus(data_pair[1], data_pair[0])
+    tmp_path = os.path.join(tmp_dir, sec_to_timestamp(data_pair[0]) + "_" + os.path.basename(video_path))
+    output_path = os.path.join(output_dir, sec_to_timestamp(data_pair[0]) + "_" + os.path.basename(video_path))
     if os.path.exists(output_path):
         print(f"Skipping trimmed file: {output_path}")
         continue
-    extract_clip_cmd = extract_clip_cmd_tmpl.format(video_path, data_pair[0], data_pair[1], encoding_params, output_path)
-    run_command(extract_clip_cmd)
-    output_paths += [output_path]
 
-if write_concat_video:
-    concat_list = f"{video_path}__concat.txt"
-    with open(concat_list, 'w') as f:
-        for output_path in output_paths:
-            f.write("file '{}'\n".format(output_path))
-    merge_output_path = format_output_path(video_path, None)
-    merge_clips_cmd_tmp = """ ffmpeg -y -f concat -safe 0 -i "{}" -c copy "{}" """
-    merge_clips_cmd = merge_clips_cmd_tmp.format(concat_list, merge_output_path)
-    run_command(merge_clips_cmd)
-    print(f"File written to: {merge_output_path}")
+    clip_cmd = clip_cmd_tmpl.format(data_pair[0], video_path, duration, tmp_path, verbosity_params)
+    run_command(clip_cmd)
+
+    probe_tmp_duration_cmd = probe_tmp_duration_cmd_tmpl.format(tmp_path, verbosity_params)
+    probe_tmp_duration_output = run_command(probe_tmp_duration_cmd)
+    probe_tmp_str = probe_tmp_duration_output
+    probe_tmp_duration = probe_duration_re.search(probe_tmp_str)
+    tmp_duration = probe_tmp_duration.groups()[0]
+
+    start_ts = str_minus(tmp_duration, duration)
+    trim_cmd = trim_cmd_tmpl.format(tmp_path, start_ts, duration, encoding_params, output_path, verbosity_params)
+    run_command(trim_cmd)
+
+print("SUCCESS")
