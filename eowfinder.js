@@ -1,4 +1,4 @@
-const { SlippiGame, characters } = require('slp-parser-js');  // npm install slp-parser-js
+const { SlippiGame, characters, stages } = require('slp-parser-js');  // npm install slp-parser-js
 const fs = require("fs");
 const path = require("path");
 
@@ -82,7 +82,8 @@ function formDoplhinQueueElements(game, combos) {
                 playerCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.playerIndex).characterId).name,
                 opponentCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.opponentIndex).characterId).name,
                 damageDealt: combo.endPercent - combo.startPercent,
-                didKill: combo.didKill
+                didKill: combo.didKill,
+                stage: stages.getStageName(settings.stageId)
             }
         }
     });

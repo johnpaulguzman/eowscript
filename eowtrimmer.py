@@ -9,6 +9,7 @@ config_path = "config.json"
 with open(config_path, 'rb') as f:
     config = json.load(f)
 
+min_duration = config['min_duration']
 video_path = config['video_path']
 encoding_params = config['encoding_params']
 verbosity_params = config['verbosity_params']
@@ -71,6 +72,8 @@ def trim_data_pair(data_pair):  # TODO: multiprocessing
     duration = str_minus(data_pair[1], data_pair[0])
     tmp_path = os.path.join(tmp_dir, sec_to_timestamp(data_pair[0]) + "_" + os.path.basename(video_path))
     output_path = os.path.join(output_dir, sec_to_timestamp(data_pair[0]) + "_" + os.path.basename(video_path))
+    if float(duration) < min_duration:
+        print(f"Skipping detected short file ({duration} < {min_duration} sec): {output_path}...")
     if os.path.exists(output_path):
         print(f"Skipping trimmed file: {output_path}...")
         return
