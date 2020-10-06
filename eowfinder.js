@@ -82,6 +82,8 @@ function formDoplhinQueueElements(game, combos) {
                 playerCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.playerIndex).characterId).name,
                 opponentCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.opponentIndex).characterId).name,
                 stage: stages.getStageName(settings.stageId),
+                startPercent: combo.startPercent,
+                endPercent: combo.endPercent,
                 damageDealt: combo.endPercent - combo.startPercent,
                 didKill: combo.didKill
             }

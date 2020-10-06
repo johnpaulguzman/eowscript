@@ -54,3 +54,6 @@
     - Open the directory in Windows Explorer
     - In the address bar (C:\\...) erase the contents, then type `cmd` and hit enter.
 - Character input options: [https://github.com/project-slippi/slp-parser-js/blob/master/src/melee/characters.ts](https://github.com/project-slippi/slp-parser-js/blob/master/src/melee/characters.ts)
+
+### ** Notes **
+- ** There's this new bug in Slippi 2.2 Playback where it just freezes after a while. I've added the `index` field in the json queue list. With this, you can remove all the clips that have been recorded by OBS, then continue recording the rest of the clips. **
