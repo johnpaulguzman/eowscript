@@ -74,6 +74,7 @@ def trim_data_pair(data_pair):  # TODO: multiprocessing
     output_path = os.path.join(output_dir, sec_to_timestamp(data_pair[0]) + "_" + os.path.basename(video_path))
     if float(duration) < min_duration:
         print(f"Skipping detected short file ({duration} < {min_duration} sec): {output_path}...")
+        return
     if os.path.exists(output_path):
         print(f"Skipping trimmed file: {output_path}...")
         return
