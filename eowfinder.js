@@ -74,18 +74,19 @@ function formDoplhinQueueElements(game, combos) {
         return [];
     }
     return combos.map(combo => {
-        return {
+        queueElement = {
             path: game.input.filePath,
             startFrame: combo.startFrame - STARTING_FRAMES_BUFFER > -123 ? combo.startFrame - STARTING_FRAMES_BUFFER : -123,
             endFrame: combo.endFrame + ENDING_FRAMES_BUFFER < metadata.lastFrame ? combo.endFrame + ENDING_FRAMES_BUFFER : metadata.lastFrame,
             additional: {
                 playerCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.playerIndex).characterId).name,
                 opponentCharacterName: characters.getCharacterInfo(settings.players.find(player => player.playerIndex === combo.opponentIndex).characterId).name,
+                stage: stages.getStageName(settings.stageId),
                 damageDealt: combo.endPercent - combo.startPercent,
-                didKill: combo.didKill,
-                stage: stages.getStageName(settings.stageId)
+                didKill: combo.didKill
             }
-        }
+        };
+        return queueElement;
     });
 }
 
@@ -101,6 +102,12 @@ function swapConsecutivePathsInPlace(l) {
     }
     if (didSwap) {
         swapConsecutivePathsInPlace(l);
+    }
+}
+
+function addIndexesInPlace(l) {
+    for (i = 0; i < l.length; i++) {
+        l[i].additional.index = i % maxClipsPerJson + 1;
     }
 }
 
@@ -129,6 +136,7 @@ for (i = 0; i < replayPaths.length; i ++) {
 }
 
 swapConsecutivePathsInPlace(dolphinQueue);
+addIndexesInPlace(dolphinQueue);
 console.log(`Replay files found: ${replayPaths.length}`);
 console.log(`Filtered combos found: ${dolphinQueue.length}`);
 
